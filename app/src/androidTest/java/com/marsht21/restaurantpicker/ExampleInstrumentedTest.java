@@ -1,4 +1,4 @@
-package com.example.restaurantpicker;
+package com.marsht21.restaurantpicker;
 
 import android.content.Context;
 

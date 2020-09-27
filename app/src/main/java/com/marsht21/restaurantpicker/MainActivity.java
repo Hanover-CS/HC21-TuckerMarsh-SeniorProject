@@ -1,11 +1,9 @@
-package com.example.restaurantpicker;
+package com.marsht21.restaurantpicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 

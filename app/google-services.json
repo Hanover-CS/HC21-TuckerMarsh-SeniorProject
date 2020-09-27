@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "443527168621",
+    "firebase_url": "https://restaurant-picker-d6ef4.firebaseio.com",
+    "project_id": "restaurant-picker-d6ef4",
+    "storage_bucket": "restaurant-picker-d6ef4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443527168621:android:8e41b9f0499c09946f3564",
+        "android_client_info": {
+          "package_name": "com.marsht21.restaurantpicker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443527168621-g3apou3hc86d169d5emel8cvk4gskds4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.marsht21.restaurantpicker",
+            "certificate_hash": "0dd3e909221b34158979a7ca48b01efdac73f2d2"
+          }
+        },
+        {
+          "client_id": "443527168621-497o72qggq3fjuiv0n4rqin038emtcb1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT6Zpr-iXBkUSUAaQ2jkokcqCPvNp14vQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443527168621-497o72qggq3fjuiv0n4rqin038emtcb1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

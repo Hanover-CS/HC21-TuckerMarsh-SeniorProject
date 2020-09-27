@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        applicationId "com.example.restaurantpicker"
+        applicationId "com.marsht21.restaurantpicker"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
@@ -32,5 +33,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.lorentzos.swipecards:library:1.0.9@aar'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-auth:19.4.0'
+    implementation 'com.google.firebase:firebase-firestore:21.6.0'
+
 
 }
