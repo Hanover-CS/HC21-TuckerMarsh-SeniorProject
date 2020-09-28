@@ -24,4 +24,18 @@
         android:layout_height="wrap_content"
         android:text="@string/login_button"
         android:id="@+id/login"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/forgot_password_button"
+        android:id="@+id/forgot_password"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_an_account_button"
+        android:id="@+id/register"/>
+
+
 </LinearLayout>
