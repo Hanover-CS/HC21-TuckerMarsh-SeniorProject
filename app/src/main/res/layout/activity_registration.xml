@@ -10,20 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email_address"
-        android:id="@+id/email"
+        android:id="@+id/remail"
         android:autofillHints="@string/email_address" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:id="@+id/password"
+        android:id="@+id/rpassword"
         android:autofillHints="@string/password" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register_button"
-        android:id="@+id/register"/>
+        android:id="@+id/rregister"/>
 
 
 </LinearLayout>

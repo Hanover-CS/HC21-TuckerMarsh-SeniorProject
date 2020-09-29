@@ -41,9 +41,9 @@ public class RegistrationActivity extends AppCompatActivity {
 //            }
 //        };
 
-        mRegister = findViewById(R.id.register);
-        mEmail = findViewById(R.id.email);
-        mPassword = findViewById(R.id.password);
+        mRegister = findViewById(R.id.rregister);
+        mEmail = findViewById(R.id.remail);
+        mPassword = findViewById(R.id.rpassword);
 
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
