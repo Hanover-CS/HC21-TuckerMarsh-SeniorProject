@@ -1,12 +1,5 @@
 <resources>
     <string name="app_name">Restaurant Picker</string>
-    <string name="title_activity_choose_login_or_registration">ChooseLoginOrRegistrationActivity
-    </string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="hello_world">Hello Square World!</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="login_button">Login</string>
@@ -14,4 +7,6 @@
     <string name="forgot_password_button">Forgot Password?</string>
     <string name="create_an_account_button">Create an Account</string>
     <string name="reset_button">Reset</string>
+    <string name="logout_button">Logout</string>
+    <string name="places_api_key">AIzaSyDcCqDkrVZHP-IzbD_Kh4D2I2RPZn95qH4</string>
 </resources>

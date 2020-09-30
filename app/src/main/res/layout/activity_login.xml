@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/password"
         android:id="@+id/password"
-        android:autofillHints="@string/password" />
+        android:autofillHints="@string/password"
+        android:inputType="textPassword" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

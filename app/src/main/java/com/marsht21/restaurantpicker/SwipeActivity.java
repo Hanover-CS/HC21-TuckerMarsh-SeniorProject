@@ -11,7 +11,7 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class SwipeActivity extends AppCompatActivity {
 
     private ArrayList<String> al;
     private ArrayAdapter<String> arrayAdapter;
@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-                Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SwipeActivity.this, "left", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SwipeActivity.this, "right", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(MainActivity.this, "click", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SwipeActivity.this, "click", Toast.LENGTH_SHORT).show();
             }
         });
 
