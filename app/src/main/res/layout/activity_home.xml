@@ -25,5 +25,17 @@
         android:layout_height="wrap_content"
         android:text="@string/logout_button"
         android:id="@+id/hlogout"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test"
+        android:id="@+id/test"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="test"
+        android:id="@+id/resultstest1"/>
+
 
 </LinearLayout>
