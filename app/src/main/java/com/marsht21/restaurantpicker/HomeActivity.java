@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -79,25 +80,53 @@ public class HomeActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
                 }
-                    FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(placeFields).build();
-                    Task<FindCurrentPlaceResponse> placeResponse = placesClient.findCurrentPlace(request);
+//                    FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(placeFields).build();
+//                    Task<FindCurrentPlaceResponse> placeResponse = placesClient.findCurrentPlace(request);
+//
+//                placeResponse.addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        FindCurrentPlaceResponse response = task.getResult();
+//                        for (PlaceLikelihood place : response.getPlaceLikelihoods()) {
+//                            mResults.setText(place.getPlace().getName());
+//                        }
+//                    }
+//                    else {
+//                        mResults.setText("Search Unsucessful");
+//                    }
+//                }).addOnFailureListener(e -> {
+//                    mResults.setText("Search Failure");
+//                });
+                Toast.makeText(HomeActivity.this, mSearch.getText().toString(), Toast.LENGTH_SHORT).show();
+                AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
+                RectangularBounds bounds = RectangularBounds.newInstance(
+                        new LatLng(-33.880490, 151.184363), //dummy lat/lng
+                        new LatLng(-33.858754, 151.229596));
+                FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
+                        // Call either setLocationBias() OR setLocationRestriction().
+                        .setLocationBias(bounds)
+                        //.setLocationRestriction(bounds)
+                        .setCountry("us")//Nigeria
+                        .setTypeFilter(TypeFilter.ESTABLISHMENT)
+                        .setSessionToken(token)
+                        .setQuery(mSearch.getText().toString())
+                        .build();
 
-                placeResponse.addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        FindCurrentPlaceResponse response = task.getResult();
-                        for (PlaceLikelihood place : response.getPlaceLikelihoods()) {
-                            mResults.setText(place.getPlace().getName());
-                        }
+                placesClient.findAutocompletePredictions(request).addOnSuccessListener(response -> {
+                    mResult = new StringBuilder();
+                    for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
+                        mResult.append(" ").append(prediction.getFullText(null) + "\n");
+                        Log.i(TAG, prediction.getPlaceId());
+                        Log.i(TAG, prediction.getPrimaryText(null).toString());
+                        Toast.makeText(HomeActivity.this, prediction.getPrimaryText(null) + "-" + prediction.getSecondaryText(null), Toast.LENGTH_SHORT).show();
                     }
-                    else {
-                        mResults.setText("Search Unsucessful");
+                    mResults.setText(String.valueOf(mResult));
+                }).addOnFailureListener((exception) -> {
+                    if (exception instanceof ApiException) {
+                        ApiException apiException = (ApiException) exception;
+                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
                     }
-                }).addOnFailureListener(e -> {
-                    mResults.setText("Search Failure");
                 });
-                    String txt = "restaurant";
-                    
-                }
+            }
 
 
         });
