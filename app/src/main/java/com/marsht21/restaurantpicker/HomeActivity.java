@@ -1,8 +1,11 @@
 package com.marsht21.restaurantpicker;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,25 +21,22 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.Place.Field;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.BreakIterator;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,11 +53,17 @@ public class HomeActivity extends AppCompatActivity {
     private PlacesClient placesClient;
     private List<Field> placeFields;
     private StringBuilder mResult;
+    private double lat;
+    private double lon;
+    private TextView txtLat;
+    private TextView txtLon;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     private void initializePlaces() {
         Places.initialize(getApplicationContext(), getString(R.string.places_api_key));
         placesClient = Places.createClient(this);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +77,23 @@ public class HomeActivity extends AppCompatActivity {
         mSearch = findViewById(R.id.search);
         mtest = findViewById(R.id.test);
         mResults = findViewById(R.id.resultstest1);
-
+        txtLat = findViewById(R.id.txtlat);
+        txtLon = findViewById(R.id.txtlon);
         initializePlaces();
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
+        }
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+            }
+        });
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         mtest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,31 +101,18 @@ public class HomeActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
                 }
-//                    FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(placeFields).build();
-//                    Task<FindCurrentPlaceResponse> placeResponse = placesClient.findCurrentPlace(request);
-//
-//                placeResponse.addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        FindCurrentPlaceResponse response = task.getResult();
-//                        for (PlaceLikelihood place : response.getPlaceLikelihoods()) {
-//                            mResults.setText(place.getPlace().getName());
-//                        }
-//                    }
-//                    else {
-//                        mResults.setText("Search Unsucessful");
-//                    }
-//                }).addOnFailureListener(e -> {
-//                    mResults.setText("Search Failure");
-//                });
+                txtLon.setText(Double.toString(lon));
+                txtLat.setText(Double.toString(lat));
                 Toast.makeText(HomeActivity.this, mSearch.getText().toString(), Toast.LENGTH_SHORT).show();
                 AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
                 RectangularBounds bounds = RectangularBounds.newInstance(
-                        new LatLng(-33.880490, 151.184363), //dummy lat/lng
-                        new LatLng(-33.858754, 151.229596));
+                        new LatLng(lat + (10/69), lon + (10/69)), //10 mile box around device location needs fixed
+                        new LatLng(lat - (10/69), lon - (10/69)));
                 FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
                         // Call either setLocationBias() OR setLocationRestriction().
-                        .setLocationBias(bounds)
+                        .setLocationRestriction(bounds)
                         //.setLocationRestriction(bounds)
+                        .setOrigin(new LatLng(lat,lon))
                         .setCountry("us")//Nigeria
                         .setTypeFilter(TypeFilter.ESTABLISHMENT)
                         .setSessionToken(token)
@@ -114,10 +122,18 @@ public class HomeActivity extends AppCompatActivity {
                 placesClient.findAutocompletePredictions(request).addOnSuccessListener(response -> {
                     mResult = new StringBuilder();
                     for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
-                        mResult.append(" ").append(prediction.getFullText(null) + "\n");
-                        Log.i(TAG, prediction.getPlaceId());
-                        Log.i(TAG, prediction.getPrimaryText(null).toString());
-                        Toast.makeText(HomeActivity.this, prediction.getPrimaryText(null) + "-" + prediction.getSecondaryText(null), Toast.LENGTH_SHORT).show();
+                        for (Place.Type type : prediction.getPlaceTypes()){
+                            if (type == Place.Type.RESTAURANT){
+                                mResult.append(" ").append(prediction.getFullText(null) + "\n");
+                                Log.i(TAG, prediction.getPlaceId());
+                                Log.i(TAG, prediction.getPrimaryText(null).toString());
+                                Toast.makeText(HomeActivity.this, prediction.getPrimaryText(null) + "-" + prediction.getSecondaryText(null), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+//                        mResult.append(" ").append(prediction.getFullText(null) + "\n");
+//                        Log.i(TAG, prediction.getPlaceId());
+//                        Log.i(TAG, prediction.getPrimaryText(null).toString());
+//                        Toast.makeText(HomeActivity.this, prediction.getPrimaryText(null) + "-" + prediction.getSecondaryText(null), Toast.LENGTH_SHORT).show();
                     }
                     mResults.setText(String.valueOf(mResult));
                 }).addOnFailureListener((exception) -> {
@@ -127,8 +143,6 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
             }
-
-
         });
 
         mLogout.setOnClickListener(new View.OnClickListener() {
@@ -149,16 +163,7 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        mSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String search = mSearch.getText().toString();
-
-
-
-            }
-        });
     }
+
 
 }

@@ -37,5 +37,15 @@
         android:hint="test"
         android:id="@+id/resultstest1"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="lat"
+        android:id="@+id/txtlat"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="lon"
+        android:id="@+id/txtlon"/>
 
 </LinearLayout>
