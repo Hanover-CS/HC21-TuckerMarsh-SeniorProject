@@ -93,7 +93,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         mtest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,13 +105,13 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, mSearch.getText().toString(), Toast.LENGTH_SHORT).show();
                 AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
                 RectangularBounds bounds = RectangularBounds.newInstance(
-                        new LatLng(lat + (10/69), lon + (10/69)), //10 mile box around device location needs fixed
-                        new LatLng(lat - (10/69), lon - (10/69)));
+                        new LatLng(-33.880490, 151.184363), //dummy lat/lng
+                        new LatLng(-33.858754, 151.229596));
                 FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
                         // Call either setLocationBias() OR setLocationRestriction().
-                        .setLocationRestriction(bounds)
+                        .setLocationBias(bounds)
                         //.setLocationRestriction(bounds)
-                        .setOrigin(new LatLng(lat,lon))
+                        .setOrigin(new LatLng(-33.8749937,151.2041382))
                         .setCountry("us")//Nigeria
                         .setTypeFilter(TypeFilter.ESTABLISHMENT)
                         .setSessionToken(token)
@@ -122,18 +121,10 @@ public class HomeActivity extends AppCompatActivity {
                 placesClient.findAutocompletePredictions(request).addOnSuccessListener(response -> {
                     mResult = new StringBuilder();
                     for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
-                        for (Place.Type type : prediction.getPlaceTypes()){
-                            if (type == Place.Type.RESTAURANT){
-                                mResult.append(" ").append(prediction.getFullText(null) + "\n");
-                                Log.i(TAG, prediction.getPlaceId());
-                                Log.i(TAG, prediction.getPrimaryText(null).toString());
-                                Toast.makeText(HomeActivity.this, prediction.getPrimaryText(null) + "-" + prediction.getSecondaryText(null), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-//                        mResult.append(" ").append(prediction.getFullText(null) + "\n");
-//                        Log.i(TAG, prediction.getPlaceId());
-//                        Log.i(TAG, prediction.getPrimaryText(null).toString());
-//                        Toast.makeText(HomeActivity.this, prediction.getPrimaryText(null) + "-" + prediction.getSecondaryText(null), Toast.LENGTH_SHORT).show();
+                        mResult.append(" ").append(prediction.getFullText(null) + "\n");
+                        Log.i(TAG, prediction.getPlaceId());
+                        Log.i(TAG, prediction.getPrimaryText(null).toString());
+                        Toast.makeText(HomeActivity.this, prediction.getPrimaryText(null) + "-" + prediction.getSecondaryText(null), Toast.LENGTH_SHORT).show();
                     }
                     mResults.setText(String.valueOf(mResult));
                 }).addOnFailureListener((exception) -> {
