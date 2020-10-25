@@ -1,21 +1,21 @@
 package com.marsht21.restaurantpicker;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -34,9 +34,9 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.BreakIterator;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,14 +55,10 @@ public class HomeActivity extends AppCompatActivity {
     private StringBuilder mResult;
     private double lat;
     private double lon;
-    private TextView txtLat;
-    private TextView txtLon;
     private FusedLocationProviderClient mFusedLocationClient;
+    private Toolbar toolbar;
 
-    private void initializePlaces() {
-        Places.initialize(getApplicationContext(), getString(R.string.places_api_key));
-        placesClient = Places.createClient(this);
-    }
+
 
 
     @Override
@@ -77,21 +73,11 @@ public class HomeActivity extends AppCompatActivity {
         mSearch = findViewById(R.id.search);
         mtest = findViewById(R.id.test);
         mResults = findViewById(R.id.resultstest1);
-        txtLat = findViewById(R.id.txtlat);
-        txtLon = findViewById(R.id.txtlon);
-        initializePlaces();
+        toolbar = findViewById(R.id.toolbar_home);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
-        }
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                lat = location.getLatitude();
-                lon = location.getLongitude();
-            }
-        });
+        initializePlaces();
+        setToolbar();
+        getLocation();
 
 
         mtest.setOnClickListener(new View.OnClickListener() {
@@ -100,17 +86,19 @@ public class HomeActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
                 }
-                txtLon.setText(Double.toString(lon));
-                txtLat.setText(Double.toString(lat));
-                Toast.makeText(HomeActivity.this, mSearch.getText().toString(), Toast.LENGTH_SHORT).show();
+                double var = 20.0/69.0;
+                double lat1 = round(lat - var);
+                double lon1 = round(lon - var);
+                double lat2 = round(lat + var);
+                double lon2 = round(lon + var);
+
+                
                 AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
                 RectangularBounds bounds = RectangularBounds.newInstance(
-                        new LatLng(-33.880490, 151.184363), //dummy lat/lng
-                        new LatLng(-33.858754, 151.229596));
+                        new LatLng(lat1, lon1),
+                        new LatLng(lat2, lon2));
                 FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-                        // Call either setLocationBias() OR setLocationRestriction().
-                        .setLocationBias(bounds)
-                        //.setLocationRestriction(bounds)
+                        .setLocationRestriction(bounds)
                         .setOrigin(new LatLng(-33.8749937,151.2041382))
                         .setCountry("us")//Nigeria
                         .setTypeFilter(TypeFilter.ESTABLISHMENT)
@@ -156,5 +144,42 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    private void getLocation() {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
+        }
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+            }
+        });
+    }
+
+
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        } else {
+            throw new NullPointerException("Something went wrong");
+        }
+    }
+
+    private void initializePlaces() {
+        Places.initialize(getApplicationContext(), getString(R.string.places_api_key));
+        placesClient = Places.createClient(this);
+    }
+
+    private static double round(double value) {
+        if (7 < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(7, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 
 }
