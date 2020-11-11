@@ -18,10 +18,11 @@ public class SwipeActivity extends AppCompatActivity {
     private int i;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_swipe);
 
 
         al = new ArrayList<>();

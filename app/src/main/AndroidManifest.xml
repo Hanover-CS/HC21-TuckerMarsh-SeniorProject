@@ -11,11 +11,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity"></activity>
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".SwipeActivity" />
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity
+            android:name=".HomeActivity"
+            android:label = "Home Activity"
+            android:parentActivityName="LoginActivity" />
+
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="Forgot Password"
+            android:parentActivityName=".LoginActivity"/>
+
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="Registration Activity"
+            android:parentActivityName=".LoginActivity"/>
+
+        <activity
+            android:name=".SwipeActivity"
+            android:label="Swipe Activity"
+            android:parentActivityName=".HomeActivity"/>
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

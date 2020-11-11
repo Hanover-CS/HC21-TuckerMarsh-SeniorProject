@@ -8,5 +8,6 @@
     <string name="create_an_account_button">Create an Account</string>
     <string name="reset_button">Reset</string>
     <string name="logout_button">Logout</string>
-    <string name="places_api_key">AIzaSyDcCqDkrVZHP-IzbD_Kh4D2I2RPZn95qH4</string>
+    <string name="places_api_key">AIzaSyDXoWFMN-AI79KtDueSIuCYujEmLpea7o8</string>
+    <string name="search">search</string>
 </resources>

@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +21,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private Button mReset;
     private EditText mEmail;
     private FirebaseAuth mAuth;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         mReset = findViewById(R.id.reset_button);
         mEmail = findViewById(R.id.email_recover);
         mAuth = FirebaseAuth.getInstance();
+        toolbar = findViewById(R.id.toolbar_forgot);
+
+        setToolbar();
 
         mReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,5 +59,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        } else {
+            throw new NullPointerException("Something went wrong");
+        }
     }
 }
