@@ -82,37 +82,24 @@ public class HomeActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_home);
         List<String> searchTerms = Arrays.asList("pizza", "taco", "burger", "chicken", "steak", "japanese", "buffet");
 
-
         initializePlaces();
         initializeFirestore();
         setToolbar();
         getLocation();
 
-
-
-
-//        for (String s : searchTerms) {
-//            Log.i("SEARCH LOOP", s);
             mSearchButton.setOnClickListener(v -> {
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
                 }
 
-
-                CollectionReference restaurants = mFirestore.collection("restaurants");
-
-
-                Log.i("IN setOnClickListener", "Testing 1, 2, 3");
-//                for (String s : searchTerms) {
                     setBounds();
-                    AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
                     FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
                             .setLocationRestriction(bounds)
                             .setOrigin(new LatLng(lat, lon))
                             .setCountry("us")
                             .setTypeFilter(TypeFilter.ESTABLISHMENT)
-                            .setSessionToken(token)
-                            .setQuery("burger")
+                            .setSessionToken(AutocompleteSessionToken.newInstance())
+                            .setQuery("taco")
                             .build();
 
                     placesClient.findAutocompletePredictions(request).addOnSuccessListener(response -> {
@@ -120,14 +107,8 @@ public class HomeActivity extends AppCompatActivity {
                         for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
                             for (Place.Type type : prediction.getPlaceTypes()) {
                                 if (type == Place.Type.RESTAURANT) {
-                                    Log.i("PREDICTION", String.valueOf(prediction.getFullText(null)));
                                     mResult.append(" ").append(prediction.getFullText(null)).append("\n").append(prediction.getPlaceId()).append("\n");
-
-
-
-                                    Log.i(TAG, prediction.getPlaceId());
-                                    Log.i(TAG, prediction.getPrimaryText(null).toString());
-                                    Toast.makeText(HomeActivity.this, prediction.getPrimaryText(null) + "-" + prediction.getSecondaryText(null), Toast.LENGTH_SHORT).show();
+                                    fetchPlaceSwipeFields(prediction);
                                 }
                             }
                         }
@@ -138,11 +119,8 @@ public class HomeActivity extends AppCompatActivity {
                             Log.e(TAG, "Place not found: " + apiException.getStatusCode());
                         }
                     });
-
-//                    mResults.setText(String.valueOf(mResult));
-//                }
             });
-//        }
+
 
         mLogout.setOnClickListener(v -> {
             mAuth.signOut();
@@ -155,6 +133,34 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, SwipeActivity.class);
             startActivity(intent);
             finish();
+        });
+    }
+
+    private void fetchPlaceSwipeFields(AutocompletePrediction prediction) {
+        final String placeId = prediction.getPlaceId();
+        final List<Place.Field> swipeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.PRICE_LEVEL, Place.Field.RATING, Place.Field.PHOTO_METADATAS);
+        final FetchPlaceRequest swipeFieldsRequest = FetchPlaceRequest.newInstance(placeId, swipeFields);
+        placesClient.fetchPlace(swipeFieldsRequest).addOnSuccessListener((swipeFieldsResponse) -> {
+            Place place = swipeFieldsResponse.getPlace();
+
+            // creates new document of the restaurant id and adds swipe data
+            Map<String, Object> id = new HashMap<>();
+            id.put("name", place.getName());
+            id.put("place id", place.getId());
+            id.put("price level", place.getPriceLevel());
+            id.put("rating", place.getRating());
+            id.put("photo", place.getPhotoMetadatas());
+            id.put("distance", prediction.getDistanceMeters());
+            mFirestore.collection("restaurants").document(prediction.getPlaceId()).collection("restaurantData").document("swipeFields").set(id);
+
+            Log.i(TAG, "Place found: " + place.getName());
+        }).addOnFailureListener((exception) -> {
+            if (exception instanceof ApiException) {
+                final ApiException apiException = (ApiException) exception;
+                Log.e(TAG, "Place not found: " + exception.getMessage());
+                final int statusCode = apiException.getStatusCode();
+                // TODO: Handle error with given status code.
+            }
         });
     }
 
@@ -175,10 +181,7 @@ public class HomeActivity extends AppCompatActivity {
         lon1 = round(lon - var);
         lat2 = round(lat + var);
         lon2 = round(lon + var);
-
-         bounds = RectangularBounds.newInstance(
-                new LatLng(lat1, lon1),
-                new LatLng(lat2, lon2));
+        bounds = RectangularBounds.newInstance(new LatLng(lat1, lon1), new LatLng(lat2, lon2));
     }
 
     private void setToolbar() {
