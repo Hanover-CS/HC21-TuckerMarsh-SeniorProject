@@ -1,6 +1,7 @@
 package com.marsht21.restaurantpicker;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -67,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private Toolbar toolbar;
     private FirebaseFirestore mFirestore;
+    private EditText mSearch;
 
 
     @Override
@@ -80,6 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         mSearchButton = findViewById(R.id.searchbutton);
         mResults = findViewById(R.id.resultstest1);
         toolbar = findViewById(R.id.toolbar_home);
+        mSearch = findViewById(R.id.search);
         List<String> searchTerms = Arrays.asList("pizza", "taco", "burger", "chicken", "steak", "japanese", "buffet");
 
         initializePlaces();
@@ -99,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
                     .setCountry("us")
                     .setTypeFilter(TypeFilter.ESTABLISHMENT)
                     .setSessionToken(AutocompleteSessionToken.newInstance())
-                    .setQuery("taco")
+                    .setQuery(mSearch.getText().toString())
                     .build();
 
             placesClient.findAutocompletePredictions(request).addOnSuccessListener(response -> {
@@ -107,11 +110,13 @@ public class HomeActivity extends AppCompatActivity {
                 for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
                     for (Place.Type type : prediction.getPlaceTypes()) {
                         if (type == Place.Type.RESTAURANT) {
-                            mResult.append(" ").append(prediction.getFullText(null)).append("\n").append(prediction.getPlaceId()).append("\n");
+                            mResult.append(" ").append(prediction.getFullText(null)).append("\n");
+
                             fetchPlaceSwipeFields(prediction);
                         }
                     }
                 }
+
                 mResults.setText(String.valueOf(mResult));
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
@@ -119,6 +124,10 @@ public class HomeActivity extends AppCompatActivity {
                     Log.e(TAG, "Place not found: " + apiException.getStatusCode());
                 }
             });
+
+            Intent intent = new Intent(HomeActivity.this, TempActivity.class);
+            startActivity(intent);
+            finish();
         });
 
 
@@ -151,7 +160,7 @@ public class HomeActivity extends AppCompatActivity {
             id.put("rating", place.getRating());
             id.put("photo", place.getPhotoMetadatas());
             id.put("distance", prediction.getDistanceMeters());
-            mFirestore.collection("restaurants").document(prediction.getPlaceId()).set(id);
+            mFirestore.collection("restaurants").document(place.getName()).set(id);
 
             Log.i(TAG, "Place found: " + place.getName());
         }).addOnFailureListener((exception) -> {
