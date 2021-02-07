@@ -1,20 +1,23 @@
 package com.marsht21.restaurantpicker;
 
-public class cards {
-    private String userId;
+public class cards { // Basically acts as an array to populate the swipe cards
+    private String restaurantID;
     private String name;
-    private String profileImageUrl;
-    public cards (String userId, String name, String profileImageUrl){
-        this.userId = userId;
-        this.name = name;
-        this.profileImageUrl = profileImageUrl;
+
+    public cards(){
+
     }
 
-    public String getUserId(){
-        return userId;
+    public cards(String restaurantID, String name){
+        this.restaurantID = restaurantID;
+        this.name = name;
     }
-    public void setUserID(String userID){
-        this.userId = userId;
+
+    public String getRestaurantID(){
+        return restaurantID;
+    }
+    public void setRestaurantID(String restaurantID){
+        this.restaurantID = restaurantID;
     }
 
     public String getName(){
@@ -22,12 +25,5 @@ public class cards {
     }
     public void setName(String name){
         this.name = name;
-    }
-
-    public String getProfileImageUrl(){
-        return profileImageUrl;
-    }
-    public void setProfileImageUrl(String profileImageUrl){
-        this.profileImageUrl = profileImageUrl;
     }
 }

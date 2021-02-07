@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class arrayAdapter extends ArrayAdapter<cards>{
+public class arrayAdapter extends ArrayAdapter<cards>{ //populates cards
 
     Context context;
 
     public arrayAdapter(Context context, int resourceId, List<cards> items){
         super(context, resourceId, items);
     }
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent){ //populates each card. adds name to textview, image to imageview ect.
         cards card_item = getItem(position);
 
         if (convertView == null){

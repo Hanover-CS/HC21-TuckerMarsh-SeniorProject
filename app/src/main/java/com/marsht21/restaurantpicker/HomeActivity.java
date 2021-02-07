@@ -87,39 +87,39 @@ public class HomeActivity extends AppCompatActivity {
         setToolbar();
         getLocation();
 
-            mSearchButton.setOnClickListener(v -> {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
+        mSearchButton.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
+            }
+
+            setBounds();
+            FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
+                    .setLocationRestriction(bounds)
+                    .setOrigin(new LatLng(lat, lon))
+                    .setCountry("us")
+                    .setTypeFilter(TypeFilter.ESTABLISHMENT)
+                    .setSessionToken(AutocompleteSessionToken.newInstance())
+                    .setQuery("taco")
+                    .build();
+
+            placesClient.findAutocompletePredictions(request).addOnSuccessListener(response -> {
+                mResult = new StringBuilder();
+                for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
+                    for (Place.Type type : prediction.getPlaceTypes()) {
+                        if (type == Place.Type.RESTAURANT) {
+                            mResult.append(" ").append(prediction.getFullText(null)).append("\n").append(prediction.getPlaceId()).append("\n");
+                            fetchPlaceSwipeFields(prediction);
+                        }
+                    }
                 }
-
-                    setBounds();
-                    FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
-                            .setLocationRestriction(bounds)
-                            .setOrigin(new LatLng(lat, lon))
-                            .setCountry("us")
-                            .setTypeFilter(TypeFilter.ESTABLISHMENT)
-                            .setSessionToken(AutocompleteSessionToken.newInstance())
-                            .setQuery("taco")
-                            .build();
-
-                    placesClient.findAutocompletePredictions(request).addOnSuccessListener(response -> {
-                        mResult = new StringBuilder();
-                        for (AutocompletePrediction prediction : response.getAutocompletePredictions()) {
-                            for (Place.Type type : prediction.getPlaceTypes()) {
-                                if (type == Place.Type.RESTAURANT) {
-                                    mResult.append(" ").append(prediction.getFullText(null)).append("\n").append(prediction.getPlaceId()).append("\n");
-                                    fetchPlaceSwipeFields(prediction);
-                                }
-                            }
-                        }
-                        mResults.setText(String.valueOf(mResult));
-                    }).addOnFailureListener((exception) -> {
-                        if (exception instanceof ApiException) {
-                            ApiException apiException = (ApiException) exception;
-                            Log.e(TAG, "Place not found: " + apiException.getStatusCode());
-                        }
-                    });
+                mResults.setText(String.valueOf(mResult));
+            }).addOnFailureListener((exception) -> {
+                if (exception instanceof ApiException) {
+                    ApiException apiException = (ApiException) exception;
+                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                }
             });
+        });
 
 
         mLogout.setOnClickListener(v -> {
@@ -151,7 +151,7 @@ public class HomeActivity extends AppCompatActivity {
             id.put("rating", place.getRating());
             id.put("photo", place.getPhotoMetadatas());
             id.put("distance", prediction.getDistanceMeters());
-            mFirestore.collection("restaurants").document(prediction.getPlaceId()).collection("restaurantData").document("swipeFields").set(id);
+            mFirestore.collection("restaurants").document(prediction.getPlaceId()).set(id);
 
             Log.i(TAG, "Place found: " + place.getName());
         }).addOnFailureListener((exception) -> {
