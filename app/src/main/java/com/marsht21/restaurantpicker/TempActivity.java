@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class TempActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private TextView restaurantName;
+    private RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class TempActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         restaurantName = findViewById(R.id.restaurantName);
+        ratingBar = findViewById(R.id.ratingbar);
 
         setToolbar();
 
@@ -51,7 +54,9 @@ public class TempActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                float r = Float.parseFloat(document.get("rating").toString());
                                 restaurantName.setText(document.get("name").toString());
+                                ratingBar.setRating(r);
                                 break;
                                 //Log.d(TAG, document.getId() + " => " + document.getData());
                             }

@@ -22,6 +22,25 @@
         android:text="Restaurant"
         android:textAlignment="center"
         android:textSize="32dp"/>
+
+    <RatingBar
+        android:id="@+id/ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1.0"
+        android:isIndicator="true"
+        android:progressTint="#FFCC01"/>
+
+    <RatingBar
+        android:id="@+id/pricebar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:rating="4"
+        style="@style/CustomRatingBarStyle"/>
+
     
     <ImageView
         android:layout_width="wrap_content"
