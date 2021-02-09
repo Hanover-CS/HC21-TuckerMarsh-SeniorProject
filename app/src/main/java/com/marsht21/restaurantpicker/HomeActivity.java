@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void fetchPlaceSwipeFields(AutocompletePrediction prediction) {
         final String placeId = prediction.getPlaceId();
-        final List<Place.Field> swipeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.PRICE_LEVEL, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.WEBSITE_URI);
+        final List<Place.Field> swipeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.PRICE_LEVEL, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.WEBSITE_URI, Place.Field.USER_RATINGS_TOTAL);
         final FetchPlaceRequest swipeFieldsRequest = FetchPlaceRequest.newInstance(placeId, swipeFields);
         placesClient.fetchPlace(swipeFieldsRequest).addOnSuccessListener((swipeFieldsResponse) -> {
             Place place = swipeFieldsResponse.getPlace();
@@ -166,6 +166,7 @@ public class HomeActivity extends AppCompatActivity {
             id.put("address", place.getAddress());
             id.put("phone number", place.getPhoneNumber());
             id.put("website", place.getWebsiteUri().toString());
+            id.put("total ratings", place.getUserRatingsTotal().toString());
 
             mFirestore.collection("restaurants").document(place.getName()).set(id);
 

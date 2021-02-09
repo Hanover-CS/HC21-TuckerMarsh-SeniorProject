@@ -108,4 +108,13 @@
         android:textSize="24dp"/>
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userRatingTotal"
+        android:text="0"
+        android:paddingLeft="8dp"
+        android:textSize="24dp"
+        />
+
 </LinearLayout>

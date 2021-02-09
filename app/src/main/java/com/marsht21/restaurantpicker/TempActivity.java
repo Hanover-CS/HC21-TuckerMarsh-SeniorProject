@@ -6,23 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.PhotoMetadata;
-import com.google.android.libraries.places.api.net.FetchPhotoRequest;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -47,6 +40,7 @@ public class TempActivity extends AppCompatActivity {
     private String phoneTemp;
     private String websiteTemp;
     private Button launchWebsite;
+    private TextView totalRatings;
 
 
     @Override
@@ -62,6 +56,8 @@ public class TempActivity extends AppCompatActivity {
         launchDirections = findViewById(R.id.button_directions);
         launchPhone = findViewById(R.id.button_phone);
         launchWebsite = findViewById(R.id.button_website);
+        totalRatings = findViewById(R.id.userRatingTotal);
+
         setToolbar();
 
         db.collection("restaurants")
@@ -74,12 +70,14 @@ public class TempActivity extends AppCompatActivity {
                                 Float r = Float.parseFloat(document.get("rating").toString());
                                 Float p = Float.parseFloat(document.get("price level").toString());
                                 restaurantName.setText(document.get("name").toString());
+                                totalRatings.setText(document.get("total ratings").toString());
                                 ratingBar.setRating(r);
                                 priceBar.setRating(p);
                                 placeIdTemp = document.get("place id").toString();
                                 nameTemp = document.get("name").toString();
                                 phoneTemp = document.get("phone number").toString();
                                 websiteTemp = document.get("website").toString();
+
 
                                 StringBuilder url = buildDirectionsUrl();  // Builds url that opens directions to restaurant in Google maps
 
@@ -94,12 +92,15 @@ public class TempActivity extends AppCompatActivity {
                                     Intent intent = new Intent(Intent.ACTION_DIAL, uri);
                                     startActivity(intent);
                                 });
-                                
+
                                 launchWebsite.setOnClickListener(v -> {  // Open phone number when button is pressed
                                     Uri uri = Uri.parse(websiteTemp);
                                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                     startActivity(intent);
                                 });
+
+
+
 
                                 break;
                             }
