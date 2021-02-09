@@ -59,7 +59,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/restaurantImage"/>
+        android:id="@+id/restaurantImage"
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -73,6 +74,36 @@
         android:layout_height="wrap_content"
         android:id="@+id/button_directions"
         android:text="Directions"
+        android:paddingLeft="8dp"
+        android:textSize="24dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone"
+        android:text="Phone Number: "
+        android:paddingLeft="8dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_phone"
+        android:text="Call"
+        android:paddingLeft="8dp"
+        android:textSize="24dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/website"
+        android:text="Website: "
+        android:paddingLeft="8dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_website"
+        android:text="Website"
         android:paddingLeft="8dp"
         android:textSize="24dp"/>
 

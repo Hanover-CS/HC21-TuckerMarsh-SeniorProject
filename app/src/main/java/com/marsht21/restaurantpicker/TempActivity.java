@@ -6,16 +6,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.PhotoMetadata;
+import com.google.android.libraries.places.api.net.FetchPhotoRequest;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -36,6 +43,9 @@ public class TempActivity extends AppCompatActivity {
     private String placeIdTemp;
     private String nameTemp;
     private StringBuilder url;
+    private Button launchPhone;
+    private String phoneTemp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,7 @@ public class TempActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingbar);
         priceBar = findViewById(R.id.pricebar);
         launchDirections = findViewById(R.id.button_directions);
+        launchPhone = findViewById(R.id.button_phone);
         setToolbar();
 
         db.collection("restaurants")
@@ -64,14 +75,22 @@ public class TempActivity extends AppCompatActivity {
                                 priceBar.setRating(p);
                                 placeIdTemp = document.get("place id").toString();
                                 nameTemp = document.get("name").toString();
+                                phoneTemp = document.get("phone number").toString();
 
                                 StringBuilder url = buildDirectionsUrl();  // Builds url that opens directions to restaurant in Google maps
 
                                 launchDirections.setOnClickListener(v -> {  // Open directions in maps when button is pressed
-                                    Uri uri  = Uri.parse(String.valueOf(url));
+                                    Uri uri = Uri.parse(String.valueOf(url));
                                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                     startActivity(intent);
                                 });
+
+                                launchPhone.setOnClickListener(v -> {  // Open phone number when button is pressed
+                                    Uri uri = Uri.parse("tel:" + phoneTemp);
+                                    Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+                                    startActivity(intent);
+                                });
+
 
                                 break;
                             }
@@ -82,19 +101,6 @@ public class TempActivity extends AppCompatActivity {
                 });
 
 
-//        StringBuilder url = new StringBuilder();
-//        url.append("https://www.google.com/maps/dir/?api=1")
-//                .append("&destination=")
-//                .append(nameTemp)
-//                .append("&destination_place_id=")
-//                .append(placeIdTemp);
-//        launchDirections.setText(url);
-//
-//        launchDirections.setOnClickListener(v -> {
-//            Uri uri  = Uri.parse(String.valueOf(url));
-//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//            startActivity(intent);
-//        });
     }
 
     @NotNull
@@ -157,4 +163,5 @@ public class TempActivity extends AppCompatActivity {
             throw new NullPointerException("Something went wrong");
         }
     }
+
 }

@@ -113,6 +113,9 @@ public class HomeActivity extends AppCompatActivity {
                             mResult.append(" ").append(prediction.getFullText(null)).append("\n");
 
                             fetchPlaceSwipeFields(prediction);
+
+
+
                         }
                     }
                 }
@@ -158,11 +161,11 @@ public class HomeActivity extends AppCompatActivity {
             id.put("place id", place.getId());
             id.put("price level", place.getPriceLevel());
             id.put("rating", place.getRating());
-            id.put("photo", place.getPhotoMetadatas());
+            id.put("photo", place.getPhotoMetadatas().get(0));
             id.put("distance", prediction.getDistanceMeters());
             id.put("address", place.getAddress());
             id.put("phone number", place.getPhoneNumber());
-
+            
             mFirestore.collection("restaurants").document(place.getName()).set(id);
 
             Log.i(TAG, "Place found: " + place.getName());
