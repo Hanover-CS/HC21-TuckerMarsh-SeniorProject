@@ -46,7 +46,7 @@
         android:id="@+id/priceLevel"
         android:text="Price Level: "
         android:paddingLeft="8dp"/>
-    
+
     <RatingBar
         android:id="@+id/pricebar"
         android:layout_width="wrap_content"
@@ -64,10 +64,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/address"
-        android:text="Address: "
+        android:id="@+id/directions"
+        android:text="Directions: "
         android:paddingLeft="8dp"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_directions"
+        android:text="Directions"
+        android:paddingLeft="8dp"
+        android:textSize="24dp"/>
 
 
 </LinearLayout>
