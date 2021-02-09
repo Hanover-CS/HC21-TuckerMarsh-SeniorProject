@@ -45,6 +45,8 @@ public class TempActivity extends AppCompatActivity {
     private StringBuilder url;
     private Button launchPhone;
     private String phoneTemp;
+    private String websiteTemp;
+    private Button launchWebsite;
 
 
     @Override
@@ -59,6 +61,7 @@ public class TempActivity extends AppCompatActivity {
         priceBar = findViewById(R.id.pricebar);
         launchDirections = findViewById(R.id.button_directions);
         launchPhone = findViewById(R.id.button_phone);
+        launchWebsite = findViewById(R.id.button_website);
         setToolbar();
 
         db.collection("restaurants")
@@ -76,6 +79,7 @@ public class TempActivity extends AppCompatActivity {
                                 placeIdTemp = document.get("place id").toString();
                                 nameTemp = document.get("name").toString();
                                 phoneTemp = document.get("phone number").toString();
+                                websiteTemp = document.get("website").toString();
 
                                 StringBuilder url = buildDirectionsUrl();  // Builds url that opens directions to restaurant in Google maps
 
@@ -90,7 +94,12 @@ public class TempActivity extends AppCompatActivity {
                                     Intent intent = new Intent(Intent.ACTION_DIAL, uri);
                                     startActivity(intent);
                                 });
-
+                                
+                                launchWebsite.setOnClickListener(v -> {  // Open phone number when button is pressed
+                                    Uri uri = Uri.parse(websiteTemp);
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                    startActivity(intent);
+                                });
 
                                 break;
                             }
