@@ -23,43 +23,43 @@
         android:textAlignment="center"
         android:textSize="32dp"/>
 
-    <RatingBar
-        android:id="@+id/ratingbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="5"
-        android:rating="0"
-        android:stepSize="1.0"
-        android:isIndicator="true"
-        android:progressTint="#FFCC01"/>
-
-    <RatingBar
-        android:id="@+id/pricebar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15sp"
-        android:rating="4"
-        style="@style/CustomRatingBarStyle"/>
-
-    
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/restaurantImage"/>
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/priceLevel"
-        android:text="Price Level: "
-        android:paddingLeft="8dp"/>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rating"
         android:text="Rating: "
         android:paddingLeft="8dp"/>
+
+    <RatingBar
+        android:id="@+id/ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1"
+        android:isIndicator="true"
+        android:progressTint="#FFCC01"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/priceLevel"
+        android:text="Price Level: "
+        android:paddingLeft="8dp"/>
+    
+    <RatingBar
+        android:id="@+id/pricebar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1"
+        android:isIndicator="true"
+        android:progressTint="@color/quantum_googgreen"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/restaurantImage"/>
 
     <TextView
         android:layout_width="match_parent"
