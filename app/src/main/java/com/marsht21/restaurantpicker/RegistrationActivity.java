@@ -1,20 +1,15 @@
 package com.marsht21.restaurantpicker;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -22,7 +17,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mEmail;
     private EditText mPassword;
     private FirebaseAuth mAuth;
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,34 +28,28 @@ public class RegistrationActivity extends AppCompatActivity {
         mRegister = findViewById(R.id.rregister);
         mEmail = findViewById(R.id.remail);
         mPassword = findViewById(R.id.rpassword);
-        toolbar = findViewById(R.id.toolbar_register);
+        mToolbar = findViewById(R.id.toolbar_register);
 
         setToolbar();
 
-        mRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String email = mEmail.getText().toString();
-                final String password = mPassword.getText().toString();
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistrationActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(RegistrationActivity.this, "Successfully Registered", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(RegistrationActivity.this, "Registration Failed", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-            ;}
-        });
+        mRegister.setOnClickListener(v -> {  //Take user email and password and creates account in firebase
+            final String email = mEmail.getText().toString();
+            final String password = mPassword.getText().toString();
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistrationActivity.this, task -> {
+                if (task.isSuccessful()) { //Account created successfully and open app to home activity
+                    Toast.makeText(RegistrationActivity.this, "Successfully Registered", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(RegistrationActivity.this, "Registration Failed", Toast.LENGTH_LONG).show();
+                }
+            })
+        ;});
     }
 
     private void setToolbar() {
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);

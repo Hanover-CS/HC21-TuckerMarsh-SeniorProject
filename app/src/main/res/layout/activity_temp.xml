@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:numStars="5"
         android:rating="0"
-        android:stepSize="1"
+        android:stepSize=".5"
         android:isIndicator="true"
         android:progressTint="#FFCC01"/>
 
@@ -56,11 +56,7 @@
         android:stepSize="1"
         android:isIndicator="true"
         android:progressTint="@color/quantum_googgreen"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/restaurantImage"
-        />
+
 
     <TextView
         android:layout_width="match_parent"
@@ -109,11 +105,10 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/userRatingTotal"
         android:text="0"
-        android:paddingLeft="8dp"
         android:textSize="24dp"
         />
 

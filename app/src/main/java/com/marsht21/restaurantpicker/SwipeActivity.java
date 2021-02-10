@@ -1,20 +1,11 @@
 package com.marsht21.restaurantpicker;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
@@ -26,15 +17,9 @@ public class SwipeActivity extends AppCompatActivity {
     private cards cards_data[];
     private arrayAdapter arrayAdapter; // custom array adapter
     private int i;
-
     private FirebaseFirestore db;
-
-    ListView listView;
-    List<cards> rowItems;
-    private FirebaseAuth mAuth;
-    private String currentUid;
+    private List<cards> rowItems;
     private String ID;
-    private String name;
 
 
     @Override
@@ -43,15 +28,10 @@ public class SwipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_swipe);
 
         db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        currentUid = mAuth.getCurrentUser().getUid();
 
         rowItems = new ArrayList<cards>();
-
-
         arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems);
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
-
 
 
         ID = db.collection("restaurants").document().getId(); //
@@ -101,12 +81,7 @@ public class SwipeActivity extends AppCompatActivity {
 
 
         // Optionally add an OnItemClickListener
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(SwipeActivity.this, "click", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //flingContainer.setOnItemClickListener((itemPosition, dataObject) -> Toast.makeText(SwipeActivity.this, "click", Toast.LENGTH_SHORT).show());
 
     }
 
