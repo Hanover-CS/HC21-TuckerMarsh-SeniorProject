@@ -152,6 +152,9 @@ public class TempActivity extends AppCompatActivity {
     public void onBackPressed() {
         deleteRestaurantDocuments();
 
+        Intent intent = new Intent(TempActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
         super.onBackPressed();
     }
 
