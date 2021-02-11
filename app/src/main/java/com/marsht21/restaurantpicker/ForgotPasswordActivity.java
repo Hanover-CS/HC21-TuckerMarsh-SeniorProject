@@ -11,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
-
+/*
+ * ForgotPasswordActivity
+ * Sends user an email to reset their password
+ */
 public class ForgotPasswordActivity extends AppCompatActivity {
     private Button mReset;
     private EditText mEmail;
@@ -50,6 +53,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * Set toolbar for back functionality
+     */
     private void setToolbar() {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();

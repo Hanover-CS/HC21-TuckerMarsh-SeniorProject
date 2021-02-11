@@ -11,7 +11,14 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+ * SwipeActivity
+ * Restaurant information is displayed on a deck of swipeable cards to swipe
+ * through until a match is found.
+ *
+ * I could not get this to work and had to display information of the first
+ * restaurant on a temporary app screen.
+ */
 public class SwipeActivity extends AppCompatActivity {
 
     private cards cards_data[];
@@ -19,7 +26,6 @@ public class SwipeActivity extends AppCompatActivity {
     private int i;
     private FirebaseFirestore db;
     private List<cards> rowItems;
-    private String ID;
 
 
     @Override
@@ -34,8 +40,8 @@ public class SwipeActivity extends AppCompatActivity {
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
 
-        ID = db.collection("restaurants").document().getId(); //
-        cards item = new cards(ID, ID); // add data from database here (keeps crashing)
+
+        cards item = new cards(db.collection("restaurants").document().getId()); // add data from database here (keeps crashing)
         rowItems.add(item);
 
         flingContainer.setAdapter(arrayAdapter);
@@ -64,7 +70,7 @@ public class SwipeActivity extends AppCompatActivity {
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 // Ask for more data here
-                cards item = new cards(db.collection("restaurants").getId(), "test name"); // add data from database here
+                cards item = new cards(db.collection("restaurants").getId()); // add data from database here
                 rowItems.add(item);
                 arrayAdapter.notifyDataSetChanged();
                 Log.d("LIST", "notified");

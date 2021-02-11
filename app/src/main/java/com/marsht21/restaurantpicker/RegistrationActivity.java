@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+/*
+ * RegistrationActivity
+ * Registers a new user using Google Firebase
+ */
 public class RegistrationActivity extends AppCompatActivity {
     private Button mRegister;
     private EditText mEmail;
@@ -48,6 +52,9 @@ public class RegistrationActivity extends AppCompatActivity {
         ;});
     }
 
+    /*
+     * Set toolbar for back functionality
+     */
     private void setToolbar() {
         setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,22 +38,20 @@ import java.util.List;
 import java.util.Map;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
+/*
+ * HomeActivity
+ * The home screen of the app where a search term stores a list of restaurants
+ */
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = HomeActivity.class.getSimpleName();
-    private Button mLogout;
-    private Button mSwipe;
+    private Button mLogoutButton;
+    private Button mSwipeButton;
     private Button mSearchButton;
     private FirebaseAuth mAuth;
     private PlacesClient placesClient;
     private double lat;
     private double lon;
-    private double lat1;
-    private double lat2;
-    private double lon1;
-    private double lon2;
     private RectangularBounds bounds;
-    private FusedLocationProviderClient mFusedLocationClient;
     private Toolbar toolbar;
     private FirebaseFirestore mFirestore;
     private EditText mSearch;
@@ -67,8 +64,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         mAuth = FirebaseAuth.getInstance();
-        mLogout = findViewById(R.id.hlogout);
-        mSwipe = findViewById(R.id.swipe);
+        mLogoutButton = findViewById(R.id.hlogout);
+        mSwipeButton = findViewById(R.id.swipe);
         mSearchButton = findViewById(R.id.searchbutton);
         toolbar = findViewById(R.id.toolbar_home);
         mSearch = findViewById(R.id.search);
@@ -109,21 +106,24 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        mLogout.setOnClickListener(v -> {
+        mLogoutButton.setOnClickListener(v -> {
             mAuth.signOut();
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         });
 
-        mSwipe.setOnClickListener(v -> {
+        mSwipeButton.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, SwipeActivity.class);
             startActivity(intent);
             finish();
         });
     }
 
-    private void buildPlacesAutocompleteRequest() { // Builds search request for google places autocomplete
+    /*
+     * Builds search request for Google Places Autocomplete
+     */
+    private void buildPlacesAutocompleteRequest() {
         request = FindAutocompletePredictionsRequest.builder()
                 .setLocationRestriction(bounds)
                 .setOrigin(new LatLng(lat, lon))
@@ -134,10 +134,15 @@ public class HomeActivity extends AppCompatActivity {
                 .build();
     }
 
-    private void fetchPlaceSwipeFields(AutocompletePrediction prediction) {  // Retrieves selected fields from places and adds them to firebase
+    /*
+     *  Retrieves selected fields from Google Places Autocomplete and adds them to firebase
+     * @param prediction A list of places that may satisfy the search request
+     */
+    private void fetchPlaceSwipeFields(AutocompletePrediction prediction) {
         final String placeId = prediction.getPlaceId();
-        final List<Place.Field> swipeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.PRICE_LEVEL, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.WEBSITE_URI, Place.Field.USER_RATINGS_TOTAL);
+        final List<Place.Field> swipeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.PRICE_LEVEL, Place.Field.RATING, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.WEBSITE_URI, Place.Field.USER_RATINGS_TOTAL);
         final FetchPlaceRequest swipeFieldsRequest = FetchPlaceRequest.newInstance(placeId, swipeFields);
+
         placesClient.fetchPlace(swipeFieldsRequest).addOnSuccessListener((swipeFieldsResponse) -> {
             Place place = swipeFieldsResponse.getPlace();
 
@@ -147,7 +152,6 @@ public class HomeActivity extends AppCompatActivity {
             id.put("place id", place.getId());
             id.put("price level", place.getPriceLevel());
             id.put("rating", place.getRating());
-            id.put("photo", place.getPhotoMetadatas().get(0));
             id.put("distance", prediction.getDistanceMeters());
             id.put("address", place.getAddress());
             id.put("phone number", place.getPhoneNumber());
@@ -164,8 +168,11 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void getLocation() {  //Get users latitude and longitude
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    /*
+     * Get users latitude and longitude
+     */
+    private void getLocation() {
+        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(HomeActivity.this, new String[]{ACCESS_FINE_LOCATION}, 0);
         }
@@ -175,15 +182,21 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void setBounds(){  //Set search bounds to mile radius around user
+    /*
+     * Set search bounds to mile radius around user
+     */
+    private void setBounds(){
         double var = 10.0/69.0;
-        lat1 = round(lat - var);
-        lon1 = round(lon - var);
-        lat2 = round(lat + var);
-        lon2 = round(lon + var);
+        double lat1 = round(lat - var);
+        double lon1 = round(lon - var);
+        double lat2 = round(lat + var);
+        double lon2 = round(lon + var);
         bounds = RectangularBounds.newInstance(new LatLng(lat1, lon1), new LatLng(lat2, lon2));
     }
 
+    /*
+     * Set toolbar for back functionality
+     */
     private void setToolbar() {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
@@ -194,18 +207,26 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void initializePlaces() {
-        Places.initialize(getApplicationContext(), getString(R.string.places_api_key));
-        placesClient = Places.createClient(this);
-    }
-
+    /*
+     * Rounds latitude and longitude
+     */
     private static double round(double value) {
-        if (7 < 0) throw new IllegalArgumentException();
         BigDecimal bd = new BigDecimal(Double.toString(value));
         bd = bd.setScale(7, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
 
+    /*
+     * Initializes Google Places
+     */
+    private void initializePlaces() {
+        Places.initialize(getApplicationContext(), getString(R.string.places_api_key));
+        placesClient = Places.createClient(this);
+    }
+
+    /*
+     * Initializes Google Firestore
+     */
     private void initializeFirestore(){
         mFirestore = FirebaseFirestore.getInstance();
     }

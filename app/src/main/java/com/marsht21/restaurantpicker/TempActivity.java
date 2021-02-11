@@ -17,12 +17,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
-
+/*
+ * Screen of the app that displays information for selected restaurant
+ */
 public class TempActivity extends AppCompatActivity {
 
     private static final String TAG = TempActivity.class.getSimpleName();
     private Toolbar toolbar;
-    private FirebaseFirestore db;
+    private FirebaseFirestore firestore;
     private TextView restaurantName;
     private RatingBar ratingBar;
     private RatingBar priceBar;
@@ -41,7 +43,7 @@ public class TempActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
         toolbar = findViewById(R.id.toolbar_temp);
-        db = FirebaseFirestore.getInstance();
+        firestore = FirebaseFirestore.getInstance();
         restaurantName = findViewById(R.id.restaurantName);
         ratingBar = findViewById(R.id.ratingbar);
         priceBar = findViewById(R.id.pricebar);
@@ -52,14 +54,14 @@ public class TempActivity extends AppCompatActivity {
 
         setToolbar();
 
-        db.collection("restaurants")
-                .get()
+        firestore.collection("restaurants")
+                .get() // Gets all documents in collection Restaurants
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            getFields(document);  //Gets selected data from Firestore to display
+                            getFields(document);
 
-                            StringBuilder url = buildDirectionsUrl();  // Builds url that opens directions to restaurant in Google maps
+                            StringBuilder url = buildDirectionsUrl();
 
                             launchDirections.setOnClickListener(v -> {  // Open directions in maps when button is pressed
                                 Uri uri = Uri.parse(String.valueOf(url));
@@ -87,11 +89,17 @@ public class TempActivity extends AppCompatActivity {
                 });
     }
 
+    /*
+     * Get chosen fields from Firestore to be displayed
+     * @param document A document holding information for the restaurant
+     */
     private void getFields(QueryDocumentSnapshot document) {
         float r = Float.parseFloat(document.get("rating").toString());
         float p = Float.parseFloat(document.get("price level").toString());
         restaurantName.setText(document.get("name").toString());
-        totalRatings.setText(document.get("total ratings").toString());
+        StringBuilder ratings = new StringBuilder();
+        ratings.append("(").append(document.get("total ratings").toString()).append(")");
+        totalRatings.setText(ratings);
         ratingBar.setRating(r);
         priceBar.setRating(p);
         placeIdTemp = document.get("place id").toString();
@@ -100,6 +108,29 @@ public class TempActivity extends AppCompatActivity {
         websiteTemp = document.get("website").toString();
     }
 
+    /*
+     * Deletes all documents in Restaurant collection so only current search documents will
+     * be stored in Firestore.
+     */
+    private void deleteRestaurantDocuments() {
+        firestore.collection("restaurants")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (!document.getId().equals("restaurantID")) {
+                                firestore.collection("restaurants").document(document.getId()).delete();
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "Error deleting documents: ", task.getException());
+                    }
+                });
+    }
+
+    /*
+     *  Builds url that opens directions to restaurant in Google maps
+     */
     @NotNull
     private StringBuilder buildDirectionsUrl() {
         StringBuilder url = new StringBuilder();
@@ -111,6 +142,9 @@ public class TempActivity extends AppCompatActivity {
         return url;
     }
 
+    /*
+     * Override back button to delete documents
+     */
     @Override
     public void onBackPressed() {
         deleteRestaurantDocuments();
@@ -118,6 +152,9 @@ public class TempActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    /*
+     * Override back button in toolbar to delete documents
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -130,23 +167,10 @@ public class TempActivity extends AppCompatActivity {
         return true;
     }
 
-    private void deleteRestaurantDocuments() {
-        db.collection("restaurants")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (!document.getId().equals("restaurantID")) {
-                                db.collection("restaurants").document(document.getId()).delete();
-                            }
-                        }
-                    } else {
-                        Log.d(TAG, "Error deleting documents: ", task.getException());
-                    }
-                });
-    }
 
-
+    /*
+     * Set toolbar for back functionality
+     */
     private void setToolbar() {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();

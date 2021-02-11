@@ -9,7 +9,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-
+/*
+ * LoginActivity
+ * Opening screen of app where user can login, reset password, or create an account
+ */
 public class LoginActivity extends AppCompatActivity {
     private Button mLogin;
     private EditText mEmail;
@@ -58,6 +61,5 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
 
 }
