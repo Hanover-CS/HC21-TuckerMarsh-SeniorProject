@@ -27,7 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mRegister = findViewById(R.id.rregister);
         mEmail = findViewById(R.id.remail);
-        mPassword = findViewById(R.id.rpassword);
+        mPassword = findViewById(R.id.rpasword);
         mToolbar = findViewById(R.id.toolbar_register);
 
         setToolbar();

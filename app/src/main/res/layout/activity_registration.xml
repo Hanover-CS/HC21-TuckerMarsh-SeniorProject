@@ -19,14 +19,16 @@
         android:layout_height="wrap_content"
         android:hint="@string/email_address"
         android:id="@+id/remail"
-        android:autofillHints="@string/email_address" />
+        android:autofillHints="@string/email_address"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:id="@+id/rpassword"
-        android:autofillHints="@string/password" />
+        android:id="@+id/rpasword"
+        android:autofillHints="@string/password"
+        android:inputType="text" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

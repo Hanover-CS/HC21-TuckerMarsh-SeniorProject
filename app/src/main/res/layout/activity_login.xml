@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/email_address"
         android:id="@+id/email"
-        android:autofillHints="@string/email_address" />
+        android:autofillHints="@string/email_address"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:layout_width="match_parent"

@@ -19,16 +19,16 @@
         android:id="@+id/restaurantName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Restaurant"
+        android:text="@string/restaurant"
         android:textAlignment="center"
-        android:textSize="32dp"/>
+        android:textSize="32sp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rating"
-        android:text="Rating: "
-        android:paddingLeft="8dp"/>
+        android:text="@string/rating_label"
+        android:paddingStart="8dp"/>
 
     <RatingBar
         android:id="@+id/ratingbar"
@@ -44,8 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/priceLevel"
-        android:text="Price Level: "
-        android:paddingLeft="8dp"/>
+        android:text="@string/price_level_label"
+        android:paddingStart="8dp"/>
 
     <RatingBar
         android:id="@+id/pricebar"
@@ -62,54 +62,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/directions"
-        android:text="Directions: "
-        android:paddingLeft="8dp"/>
+        android:text="@string/directions_label"
+        android:paddingStart="8dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_directions"
-        android:text="Directions"
-        android:paddingLeft="8dp"
-        android:textSize="24dp"/>
+        android:text="@string/directions_button"
+        android:paddingStart="8dp"
+        android:textSize="24sp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/phone"
-        android:text="Phone Number: "
-        android:paddingLeft="8dp"/>
+        android:text="@string/phone_number_label"
+        android:paddingStart="8dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_phone"
-        android:text="Call"
-        android:paddingLeft="8dp"
-        android:textSize="24dp"/>
+        android:text="@string/call_button"
+        android:paddingStart="8dp"
+        android:textSize="24sp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/website"
-        android:text="Website: "
-        android:paddingLeft="8dp"/>
+        android:text="@string/website_label"
+        android:paddingStart="8dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_website"
-        android:text="Website"
-        android:paddingLeft="8dp"
-        android:textSize="24dp"/>
+        android:text="@string/website_button"
+        android:paddingStart="8dp"
+        android:textSize="24sp"/>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/userRatingTotal"
-        android:text="0"
-        android:textSize="24dp"
+        android:text="@string/_0"
+        android:textSize="24sp"
         />
 
 </LinearLayout>

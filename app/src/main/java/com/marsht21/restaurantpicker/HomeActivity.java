@@ -46,9 +46,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button mSwipe;
     private Button mSearchButton;
     private FirebaseAuth mAuth;
-    private TextView mResults;
     private PlacesClient placesClient;
-    private StringBuilder mResult;
     private double lat;
     private double lon;
     private double lat1;
@@ -72,7 +70,6 @@ public class HomeActivity extends AppCompatActivity {
         mLogout = findViewById(R.id.hlogout);
         mSwipe = findViewById(R.id.swipe);
         mSearchButton = findViewById(R.id.searchbutton);
-        mResults = findViewById(R.id.resultstest1);
         toolbar = findViewById(R.id.toolbar_home);
         mSearch = findViewById(R.id.search);
 

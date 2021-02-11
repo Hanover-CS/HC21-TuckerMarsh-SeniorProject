@@ -10,4 +10,15 @@
     <string name="logout_button">Logout</string>
     <string name="places_api_key">AIzaSyDXoWFMN-AI79KtDueSIuCYujEmLpea7o8</string>
     <string name="search">search</string>
+    <string name="swipe">swipe</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="rating_label">Rating:</string>
+    <string name="price_level_label">Price Level:</string>
+    <string name="directions_label">Directions:</string>
+    <string name="directions_button">Directions</string>
+    <string name="phone_number_label">Phone Number:</string>
+    <string name="call_button">Call</string>
+    <string name="website_label">Website:</string>
+    <string name="website_button">Website</string>
+    <string name="_0">0</string>
 </resources>

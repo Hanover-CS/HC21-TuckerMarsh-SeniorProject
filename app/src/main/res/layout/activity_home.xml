@@ -17,14 +17,15 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="search"
+        android:hint="search pizza or burger"
         android:id="@+id/search"
-        android:inputType="text" />
+        android:inputType="text"
+        android:autofillHints="" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="swipe"
+        android:text="@string/swipe"
         android:id="@+id/swipe"/>
 
     <Button
@@ -37,12 +38,6 @@
         android:layout_height="wrap_content"
         android:text="@string/search"
         android:id="@+id/searchbutton"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="test"
-        android:id="@+id/resultstest1"/>
 
 
 </LinearLayout>
