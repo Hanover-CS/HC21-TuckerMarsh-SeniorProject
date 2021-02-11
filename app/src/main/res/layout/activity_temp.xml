@@ -30,6 +30,7 @@
         android:text="@string/rating_label"
         android:paddingStart="8dp"/>
 
+
     <RatingBar
         android:id="@+id/ratingbar"
         android:layout_width="wrap_content"
@@ -41,75 +42,58 @@
         android:progressTint="#FFCC01"/>
 
     <TextView
+        android:id="@+id/userRatingTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/_0"
+        android:textSize="14sp"
+        android:paddingStart="8dp"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/priceLevel"
         android:text="@string/price_level_label"
         android:paddingStart="8dp"/>
-
-    <RatingBar
-        android:id="@+id/pricebar"
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numStars="5"
-        android:rating="0"
-        android:stepSize="1"
-        android:isIndicator="true"
+        android:max="4"
+        android:progress="0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="180dp"
         android:progressTint="@color/quantum_googgreen"/>
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/directions"
-        android:text="@string/directions_label"
-        android:paddingStart="8dp"/>
+    
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/button_directions"
-        android:text="@string/directions_button"
-        android:paddingStart="8dp"
-        android:textSize="24sp"/>
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/phone"
-        android:text="@string/phone_number_label"
-        android:paddingStart="8dp"/>
+        android:paddingBottom="8dp"
+        android:text="@string/directions_button"
+        android:textSize="24sp"
+        android:paddingVertical="8dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_phone"
         android:text="@string/call_button"
-        android:paddingStart="8dp"
-        android:textSize="24sp"/>
+        android:textSize="24sp"
+        android:paddingVertical="8dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/website"
-        android:text="@string/website_label"
-        android:paddingStart="8dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_website"
         android:text="@string/website_button"
-        android:paddingStart="8dp"
-        android:textSize="24sp"/>
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/userRatingTotal"
-        android:text="@string/_0"
         android:textSize="24sp"
-        />
+        android:paddingVertical="8dp"/>
+
+
 
 </LinearLayout>

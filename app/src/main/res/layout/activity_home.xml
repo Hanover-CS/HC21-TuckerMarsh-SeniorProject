@@ -19,8 +19,13 @@
         android:layout_height="wrap_content"
         android:hint="search pizza or burger"
         android:id="@+id/search"
-        android:inputType="text"
-        android:autofillHints="" />
+        android:inputType="text" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search"
+        android:id="@+id/searchbutton"/>
 
     <Button
         android:layout_width="match_parent"
@@ -33,11 +38,7 @@
         android:layout_height="wrap_content"
         android:text="@string/logout_button"
         android:id="@+id/hlogout"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/search"
-        android:id="@+id/searchbutton"/>
+
 
 
 </LinearLayout>

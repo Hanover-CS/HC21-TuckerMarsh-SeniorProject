@@ -1,5 +1,6 @@
 package com.marsht21.restaurantpicker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -110,8 +111,13 @@ public class SwipeActivity extends AppCompatActivity {
 //    }
 
 
-
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SwipeActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
 }
 
 

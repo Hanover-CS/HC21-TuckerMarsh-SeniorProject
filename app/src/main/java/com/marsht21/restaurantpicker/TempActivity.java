@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class TempActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private TextView restaurantName;
     private RatingBar ratingBar;
-    private RatingBar priceBar;
+    private ProgressBar priceBar;
     private Button launchDirections;
     private String placeIdTemp;
     private String nameTemp;
@@ -46,7 +47,7 @@ public class TempActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         restaurantName = findViewById(R.id.restaurantName);
         ratingBar = findViewById(R.id.ratingbar);
-        priceBar = findViewById(R.id.pricebar);
+        priceBar = findViewById(R.id.progressBar);
         launchDirections = findViewById(R.id.button_directions);
         launchPhone = findViewById(R.id.button_phone);
         launchWebsite = findViewById(R.id.button_website);
@@ -95,13 +96,14 @@ public class TempActivity extends AppCompatActivity {
      */
     private void getFields(QueryDocumentSnapshot document) {
         float r = Float.parseFloat(document.get("rating").toString());
-        float p = Float.parseFloat(document.get("price level").toString());
+        int p = Integer.parseInt(document.get("price level").toString());
         restaurantName.setText(document.get("name").toString());
         StringBuilder ratings = new StringBuilder();
-        ratings.append("(").append(document.get("total ratings").toString()).append(")");
+        ratings.append("Reviews ").append("(").append(document.get("total ratings").toString()).append(")");
         totalRatings.setText(ratings);
         ratingBar.setRating(r);
-        priceBar.setRating(p);
+        priceBar.setProgress(p);
+        priceBar.setScaleY(3f);
         placeIdTemp = document.get("place id").toString();
         nameTemp = document.get("name").toString();
         phoneTemp = document.get("phone number").toString();
