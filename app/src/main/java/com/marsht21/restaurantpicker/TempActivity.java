@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -103,7 +104,7 @@ public class TempActivity extends AppCompatActivity {
         totalRatings.setText(ratings);
         ratingBar.setRating(r);
         priceBar.setProgress(p);
-        priceBar.setScaleY(3f);
+        priceBar.setScaleY(7f);
         placeIdTemp = document.get("place id").toString();
         nameTemp = document.get("name").toString();
         phoneTemp = document.get("phone number").toString();
