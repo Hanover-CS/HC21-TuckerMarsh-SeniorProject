@@ -180,8 +180,10 @@ public class TempActivity extends AppCompatActivity {
     private void setToolbar() {
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
+
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle("Restaurant Information");
         } else {
             throw new NullPointerException("Something went wrong");
         }

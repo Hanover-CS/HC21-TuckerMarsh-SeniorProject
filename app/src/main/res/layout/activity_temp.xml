@@ -19,7 +19,7 @@
         android:id="@+id/restaurantName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/restaurant"
+        android:text="@string/restaurant_label"
         android:textAlignment="center"
         android:textSize="32sp"/>
 

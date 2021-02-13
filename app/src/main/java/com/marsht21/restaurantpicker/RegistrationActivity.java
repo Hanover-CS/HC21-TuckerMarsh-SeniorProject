@@ -60,6 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle("Register");
         } else {
             throw new NullPointerException("Something went wrong");
         }

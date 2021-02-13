@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Restaurant Picker</string>
+    <string name="app_name">Let\'s Eat</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
     <string name="login_button">Login</string>
@@ -11,7 +11,7 @@
     <string name="places_api_key">AIzaSyDXoWFMN-AI79KtDueSIuCYujEmLpea7o8</string>
     <string name="search">search</string>
     <string name="swipe">swipe</string>
-    <string name="restaurant">Restaurant</string>
+    <string name="restaurant_label">Restaurant</string>
     <string name="rating_label">Rating:</string>
     <string name="price_level_label">Price Level:</string>
     <string name="directions_label">Directions:</string>

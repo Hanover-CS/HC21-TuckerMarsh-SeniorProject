@@ -41,13 +41,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     Toast.makeText(ForgotPasswordActivity.this, "Reset link sent to your email", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
                     startActivity(intent);
-                    finish();
                 } else {
                     Toast.makeText(ForgotPasswordActivity.this, "Unable to send reset mail", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
                     startActivity(intent);
-                    finish();
                 }
+                finish();
             });
         });
 
@@ -61,6 +60,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle("Reset Password");
         } else {
             throw new NullPointerException("Something went wrong");
         }

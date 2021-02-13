@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -96,6 +97,7 @@ public class HomeActivity extends AppCompatActivity {
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
                     ApiException apiException = (ApiException) exception;
+                    Toast.makeText(HomeActivity.this, "Search Failed, Place not found:  "+ apiException.getStatusCode(), Toast.LENGTH_LONG).show(); // Never shows up on failed searches, App crashes
                     Log.e(TAG, "Place not found: " + apiException.getStatusCode());
                 }
             });
@@ -202,6 +204,7 @@ public class HomeActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle("Let's Eat");
         } else {
             throw new NullPointerException("Something went wrong");
         }
