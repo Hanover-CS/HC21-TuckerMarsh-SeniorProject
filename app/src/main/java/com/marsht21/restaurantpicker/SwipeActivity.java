@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class SwipeActivity extends AppCompatActivity {
 
-    private cards cards_data[];
+    private cards[] cards_data;
     private arrayAdapter arrayAdapter; // custom array adapter
     private int i;
     private FirebaseFirestore db;
@@ -38,7 +38,7 @@ public class SwipeActivity extends AppCompatActivity {
 
         rowItems = new ArrayList<cards>();
         arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems);
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+        SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);
 
 
 

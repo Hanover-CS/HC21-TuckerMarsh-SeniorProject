@@ -17,17 +17,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:cardCornerRadius="4dp"
-        android:elevation="2dp"
-        android:id="@+id/cardView">
+        android:elevation="2dp">
         <FrameLayout
             android:layout_width="250dp"
             android:layout_height="170dp"
             android:layout_gravity="center">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/image" />
+
             <TextView
                 android:id="@+id/name"
                 android:textSize="40sp"

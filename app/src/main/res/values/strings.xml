@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Let\'s Eat</string>
     <string name="email_address">Email Address</string>
-    <string name="password">Password</string>
+    <string name="password">Password (min 8 characters)</string>
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
     <string name="forgot_password_button">Forgot Password?</string>
@@ -14,11 +14,9 @@
     <string name="restaurant_label">Restaurant</string>
     <string name="rating_label">Rating:</string>
     <string name="price_level_label">Price Level:</string>
-    <string name="directions_label">Directions:</string>
     <string name="directions_button">Directions</string>
-    <string name="phone_number_label">Phone Number:</string>
     <string name="call_button">Call</string>
-    <string name="website_label">Website:</string>
     <string name="website_button">Website</string>
     <string name="_0">0</string>
+    <string name="search_terms">search pizza, burger, sushi, or seafood</string>
 </resources>

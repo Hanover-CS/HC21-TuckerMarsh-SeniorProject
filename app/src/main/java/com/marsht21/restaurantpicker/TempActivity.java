@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -64,7 +63,7 @@ public class TempActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            getFields(document);
+                            setFields(document);
 
                             StringBuilder url = buildDirectionsUrl();
 
@@ -98,7 +97,7 @@ public class TempActivity extends AppCompatActivity {
      * Get chosen fields from Firestore to be displayed
      * @param document A document holding information for the restaurant
      */
-    private void getFields(QueryDocumentSnapshot document) {
+    private void setFields(QueryDocumentSnapshot document) {
         float r = Float.parseFloat(document.get("rating").toString());
         int p = Integer.parseInt(document.get("price level").toString());
         double d = Double.parseDouble(document.get("distance").toString()) * 0.00062137;

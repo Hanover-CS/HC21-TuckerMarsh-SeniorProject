@@ -17,9 +17,10 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="search pizza, burger, sushi, or seafood"
+        android:hint="@string/search_terms"
         android:id="@+id/search"
-        android:inputType="text" />
+        android:inputType="text"
+        android:autofillHints="" />
 
     <Button
         android:layout_width="match_parent"

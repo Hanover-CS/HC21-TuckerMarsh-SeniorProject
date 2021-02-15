@@ -9,6 +9,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
+
 /*
  * LoginActivity
  * Opening screen of app where user can login, reset password, or create an account
@@ -27,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = getInstance();
         mLogin = findViewById(R.id.login);
         mEmail = findViewById(R.id.email);
         mPassword = findViewById(R.id.password);
@@ -58,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         mRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
             intent.putExtra("email", mEmail.getText().toString());
-            intent.putExtra("password", mPassword.getText().toString());
             startActivity(intent);
         });
 

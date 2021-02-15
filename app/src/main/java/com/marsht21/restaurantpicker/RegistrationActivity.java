@@ -35,11 +35,12 @@ public class RegistrationActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar_register);
 
         setToolbar();
-        setFields();
+        setEmail();
 
         mRegister.setOnClickListener(v -> {  //Take user email and password and creates account in firebase
             final String email = mEmail.getText().toString();
             final String password = mPassword.getText().toString();
+
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistrationActivity.this, task -> {
                 if (task.isSuccessful()) { //Account created successfully and open app to home activity
                     Toast.makeText(RegistrationActivity.this, "Successfully Registered", Toast.LENGTH_LONG).show();
@@ -50,17 +51,16 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast.makeText(RegistrationActivity.this, "Registration Failed", Toast.LENGTH_LONG).show();
                 }
             })
-        ;});
+            ;});
     }
 
     /*
      * Set email and password if value was entered on login screen
      */
-    private void setFields() {
+    private void setEmail() {
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
         mEmail.setText(bundle.getString("email"));
-        mPassword.setText(bundle.getString("password"));
     }
 
     /*

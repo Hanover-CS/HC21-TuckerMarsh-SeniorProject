@@ -26,9 +26,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rating"
         android:text="@string/rating_label"
-        android:paddingStart="8dp"/>
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
 
 
     <RatingBar
@@ -47,14 +47,15 @@
         android:layout_height="wrap_content"
         android:text="@string/_0"
         android:textSize="14sp"
-        android:paddingStart="8dp"/>
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/priceLevel"
         android:text="@string/price_level_label"
-        android:paddingStart="8dp"/>
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -96,11 +97,11 @@
 
 
     <TextView
-        android:id="@+id/distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/_0"
         android:textSize="14sp"
-        android:paddingStart="8dp"/>
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
 
 </LinearLayout>
