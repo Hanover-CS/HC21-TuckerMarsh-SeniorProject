@@ -68,7 +68,6 @@
         android:progressTint="@color/quantum_googgreen"/>
 
 
-
     <Button
         android:id="@+id/button_directions"
         android:layout_width="match_parent"
@@ -96,5 +95,12 @@
         android:paddingVertical="8dp"/>
 
 
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/_0"
+        android:textSize="14sp"
+        android:paddingStart="8dp"/>
 
 </LinearLayout>

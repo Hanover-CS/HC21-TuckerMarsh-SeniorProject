@@ -19,6 +19,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.text.DecimalFormat;
+
 /*
  * Screen of the app that displays information for selected restaurant
  */
@@ -98,11 +101,16 @@ public class TempActivity extends AppCompatActivity {
     private void getFields(QueryDocumentSnapshot document) {
         float r = Float.parseFloat(document.get("rating").toString());
         int p = Integer.parseInt(document.get("price level").toString());
+        double d = Double.parseDouble(document.get("distance").toString()) * 0.00062137;
         restaurantName.setText(document.get("name").toString());
         StringBuilder ratings = new StringBuilder();
         ratings.append("Reviews ").append("(").append(document.get("total ratings").toString()).append(")");
         totalRatings.setText(ratings);
         ratingBar.setRating(r);
+        StringBuilder mileDistance = new StringBuilder();
+        DecimalFormat df1 = new DecimalFormat("#.#");
+        mileDistance.append("DIRECTIONS (").append(df1.format(d)).append(" mi.)");
+        launchDirections.setText(mileDistance);
         priceBar.setProgress(p);
         priceBar.setScaleY(7f);
         placeIdTemp = document.get("place id").toString();
