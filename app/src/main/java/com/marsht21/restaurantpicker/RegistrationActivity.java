@@ -35,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar_register);
 
         setToolbar();
+        setFields();
 
         mRegister.setOnClickListener(v -> {  //Take user email and password and creates account in firebase
             final String email = mEmail.getText().toString();
@@ -50,6 +51,16 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             })
         ;});
+    }
+
+    /*
+     * Set email and password if value was entered on login screen
+     */
+    private void setFields() {
+        Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
+        mEmail.setText(bundle.getString("email"));
+        mPassword.setText(bundle.getString("password"));
     }
 
     /*

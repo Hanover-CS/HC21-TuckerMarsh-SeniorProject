@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+            intent.putExtra("email", mEmail.getText().toString());
+            intent.putExtra("password", mPassword.getText().toString());
             startActivity(intent);
         });
 
